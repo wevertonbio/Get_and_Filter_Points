@@ -32,7 +32,7 @@ We used the functions of plantR R package for merging, processing, cleaning, val
 * `formatCoord()`: formatting geographical coordinates to decimal degrees and replacing missing coordinates by the coordinates obtained from the gazetteer.
 * `formatTax()`: editting and standardizing the names of plant species and families.
 
-#### 3.1 - Validating data
+#### 3.2 - Validating data
 * `validateLoc()`: Comparing the resolution of the locality information provided in the original record with the resolution retrieved from the gazetteer.
 * `validateCoord()`: Checking for coordinates falling near the sea shore, open sea and country boundaries; testing if problematic coordinates are inverted or swapped; searching for records taken from cultivated individuals and for the presence of spatial outliers.
 * `validateTax()`: assigning different categories of confidence level (i.e. high, medium, low or unknown) to the identification of species records
