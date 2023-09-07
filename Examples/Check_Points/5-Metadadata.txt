@@ -1,0 +1,46 @@
+METADADOS DE E.Ocorrencias_Sinalizadas.csv
+Ocorrencias sinalizadas
+Numero total de registros: 2261
+Numero total de especies: 1
+"Problems" "n_records"
+"before1981" 1
+"before1981|duplicated" 1
+"Checar_local" 1193
+"Checar_local|before1981" 139
+"Checar_local|before1981|duplicated" 91
+"Checar_local|before1981|outside_bioma|duplicated" 4
+"Checar_local|before1981|outside_state" 2
+"Checar_local|before1981|outside_state|outside_bioma" 3
+"Checar_local|before1981|outside_state|outside_bioma|duplicated" 14
+"Checar_local|before1981|province_centroid" 1
+"Checar_local|before1981|province_centroid|duplicated" 1
+"Checar_local|duplicated" 384
+"Checar_local|inst_bio" 8
+"Checar_local|inst_bio|duplicated" 1
+"Checar_local|NoYear" 33
+"Checar_local|NoYear|duplicated" 38
+"Checar_local|NoYear|outside_bioma" 1
+"Checar_local|NoYear|outside_bioma|duplicated" 5
+"Checar_local|NoYear|outside_state|outside_bioma|duplicated" 11
+"Checar_local|NoYear|province_centroid|duplicated" 1
+"Checar_local|outside_bioma" 2
+"Checar_local|outside_state" 6
+"Checar_local|outside_state|duplicated" 1
+"Checar_local|outside_state|outside_bioma" 4
+"Checar_local|outside_state|outside_bioma|duplicated" 3
+"Checar_local|prob_cultivated" 3
+"Checar_local|prob_cultivated|before1981" 2
+"Checar_local|prob_cultivated|before1981|duplicated" 1
+"Checar_local|prob_cultivated|duplicated" 4
+"Checar_local|prob_cultivated|inst_bio" 1
+"duplicated" 14
+"No flags" 10
+"outside_state|outside_bioma|duplicated" 1
+"sea|Checar_local" 2
+"sea|Checar_local|before1981" 1
+"sea|Checar_local|before1981|duplicated" 2
+"sea|Checar_local|identical_LongLat" 15
+"sea|Checar_local|identical_LongLat|duplicated" 253
+"sea|Checar_local|NoYear|identical_LongLat" 2
+"sea|Checar_local|NoYear|identical_LongLat|duplicated" 1
+"wrong_country|Checar_local" 1
