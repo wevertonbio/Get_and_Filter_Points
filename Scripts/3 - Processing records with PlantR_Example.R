@@ -78,7 +78,6 @@ epifor.sp <- epifor.sp %>% dplyr::select(
   country = COUNTRY,
   locality = REGIONAL_NAME_OF_STUDY_SITE,
   stateProvince = STATE,
-  county = STATE,
   decimalLongitude = LONGITUDE_X,
   decimalLatitude = LONGITUDE_X,
   year = YEAR_FINISH,
@@ -91,7 +90,8 @@ epifor.sp <- epifor.sp %>% dplyr::select(
   typeStatus = EPIPHYTE_HABITAT,
   family) %>% mutate(recordedBy = "Datapaper_epiphytes",
                         identifiedBy = "Datapaper_epiphytes",
-                        scientificNameAuthorship = "no_info")
+                        scientificNameAuthorship = "no_info",
+                     county = FALSE)
 
 #Convert in DWC format
 occ.epi.dwc <- formatDwc(user_data = data.frame(epifor.sp))
@@ -99,7 +99,8 @@ occ.epi.dwc$dateIdentified <- as.character(occ.epi.dwc$dateIdentified)
 occ.epi.dwc <- occ.epi.dwc %>% mutate(data_source = "Datapaper_epiphytes")
 
 #Join data
-occ.nt.jabot <- bind_rows(occ.nt.dwc, occ.jabot.dwc, occ.epi.dwc)
+occ.nt.jabot <- rbindlist(list(occ.nt.dwc, occ.jabot.dwc, occ.epi.dwc),
+                          fill = TRUE)
 
 #Remove databases without data
 splink_data2 <- if(nrow(sp.splink) <= 1) {NULL} else {sp.splink %>% data.frame()}
