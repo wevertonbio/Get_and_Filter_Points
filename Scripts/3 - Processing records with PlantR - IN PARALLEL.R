@@ -34,6 +34,11 @@ neotree <- fread("NeotropicTree/NeotropicTreeFixedFloraDoBrasil.csv",
 #ATLANTIC EPIPHYTES
 af_epi <- fread("Atlantic_Epiphytes/Atlantic_Epiphytes.csv", encoding = "UTF-8")
 
+#Load florabr database
+bf <- load_florabr("../Other_Files/")
+bf <- bf %>% filter(species %in% sp | acceptedName %in% l.spp)
+
+
 #Start looping
 library(parallel)
 cl <- makeCluster(5) #Number of cores
@@ -118,7 +123,8 @@ pblapply(seq_along(l.spp), FUN = function(i){
       occ.epi.dwc <- occ.epi.dwc %>% mutate(data_source = "Datapaper_epiphytes")
       
       #Join data
-      occ.nt.jabot <- bind_rows(occ.nt.dwc, occ.jabot.dwc, occ.epi.dwc)
+      occ.nt.jabot <- rbindlist(list(occ.nt.dwc, occ.jabot.dwc, occ.epi.dwc),
+                                fill = TRUE)
       
       #Remove databases without data
       splink_data2 <- if(nrow(sp.splink) <= 1) {NULL} else {sp.splink %>% data.frame()}
@@ -315,6 +321,11 @@ pblapply(seq_along(l.spp), FUN = function(i){
                       !is.na(occ$decimalLongitude.new1))
       
       #Get binomial name
+      if(any(is.na(occ$scientificNameFull))){
+        occ$scientificNameFull[which(is.na(occ$scientificNameFull))] <- occ$scientificName[which(is.na(occ$scientificNameFull))] }
+      if(any(is.na(occ$scientificName.new1))){
+        occ$scientificName.new1[which(is.na(occ$scientificName.new1))] <- occ$scientificName[which(is.na(occ$scientificName.new1))] }
+      
       occ$species <- if("scientificName.new1" %in% colnames(occ)) {
         occ$species <- get_binomial(species_names = occ$scientificName.new1)
       } else {
@@ -345,6 +356,13 @@ pblapply(seq_along(l.spp), FUN = function(i){
       
       #Select columns
       oc <- occ[, columns_occ]
+      
+      #Correct names, if necessary
+      sp_bf <- bf %>% filter(species %in% sp | acceptedName %in% sp)
+      all_names_sp <- na.omit(unique(c(sp_bf$species, sp_bf$acceptedName)))
+      #Rename synonyms, if necessary
+      oc$species[which(oc$species %in% all_names_sp)] <- sp
+      
       #Select only correct species
       oc.sp <- subset(oc, oc$species == sp)
       

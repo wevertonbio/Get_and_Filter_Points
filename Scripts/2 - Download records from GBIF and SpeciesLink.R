@@ -34,19 +34,21 @@ spp <- txkey %>% map_df(bind_rows)
 spp10 <- spp %>% filter(n <=10000) %>% filter(n > 0)
 l.spp <- unique(spp10$species)
 
+sp <- "Araucaria angustifolia"
+
 #As example, let's download the records of a single specie (Araucaria angustifolia)
   #Download from GBIF
-oc.gbif <- rgbif2(species = "Araucaria angustifolia", force = TRUE,
+oc.gbif <- rgbif2(species = sp, force = TRUE,
                   remove_na = TRUE,
                   n.records = 100000)
 #Save file with records downloaded
-write.csv(oc.gbif, "Examples/GBIF/Araucaria angustifolia.csv")
+write.csv(oc.gbif, paste0("Examples/GBIF/", sp, ".csv"))
 
 ####Download from SpeciesLink####
 #Create directoryy
 dir.create("Examples/SpeciesLink")
 #Download from speciesLink
-oc.splink <- rspeciesLink(species = "Araucaria angustifolia")
-write.csv(oc.splink, "Examples/SpeciesLink/Araucaria angustifolia.csv")
+oc.splink <- rspeciesLink(species = sp)
+write.csv(oc.splink, paste0("Examples/SpeciesLink/", sp, ".csv"))
 
 #Check the folders SpeciesLink and GBIF to see the files!#

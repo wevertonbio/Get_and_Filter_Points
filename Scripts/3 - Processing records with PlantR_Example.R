@@ -30,21 +30,26 @@ neotree <- fread("NeotropicTree/NeotropicTreeFixedFloraDoBrasil.csv",
 #ATLANTIC EPIPHYTES
 af_epi <- fread("Atlantic_Epiphytes/Atlantic_Epiphytes.csv", encoding = "UTF-8")
 
+#Load florabr database
+bf <- load_florabr("../Other_Files/")
+bf <- bf %>% filter(species %in% sp | acceptedName %in% sp)
+
+
 #Identify species
 sp <- "Araucaria angustifolia"
 
 #Check if there is a file downloaded from GBIF. If not, create an empty dataframe
 if(file.exists(paste0("GBIF/", sp, ".csv"))) {
   sp.gbif <- fread(paste0("GBIF/", sp, ".csv"), encoding = "UTF-8") } else {
-  sp.gbif <- data.frame()
-}
+    sp.gbif <- data.frame()
+  }
 
 #Check if there is a file downloaded from SpeciesLink. If not, create an empty dataframe
 if(file.exists(paste0("SpeciesLink/", sp, ".csv"))) {
   sp.splink <- fread(paste0("SpeciesLink/", sp, ".csv"),
                      encoding = "UTF-8")} else {
-  sp.splink <- data.frame()
-}
+                       sp.splink <- data.frame()
+                     }
 
 #Subset species data from Jabot
 occ.jabot <- subset(jabot.all, jabot.all$species %in% sp)
@@ -61,11 +66,11 @@ occ.nt.dwc$dateIdentified <- as.character(occ.nt.dwc$dateIdentified)
 occ.nt.dwc <- occ.nt.dwc %>% mutate(data_source = "NeotropicTree")
 
 #Subset species data from Atlantic_Epiphytes
-  #Epiphyte specie
+#Epiphyte specie
 epi.sp <- subset(af_epi, af_epi$EPIPHYTE_SPECIES %in% sp)
 epi.sp <- epi.sp %>% dplyr::rename(species = EPIPHYTE_SPECIES,
                                    family = EPIPHYTE_FAMILY)
-  #Forophyte specie
+#Forophyte specie
 for.sp <- subset(af_epi, af_epi$FOROPYHYTE_SPECIES %in% sp)
 for.sp <- for.sp %>% dplyr::rename(species = FOROPYHYTE_SPECIES,
                                    family = FOROPHYTE_FAMILY)
@@ -78,6 +83,7 @@ epifor.sp <- epifor.sp %>% dplyr::select(
   country = COUNTRY,
   locality = REGIONAL_NAME_OF_STUDY_SITE,
   stateProvince = STATE,
+  county = STATE,
   decimalLongitude = LONGITUDE_X,
   decimalLatitude = LONGITUDE_X,
   year = YEAR_FINISH,
@@ -89,9 +95,8 @@ epifor.sp <- epifor.sp %>% dplyr::select(
   dateIdentified = YEAR_FINISH,
   typeStatus = EPIPHYTE_HABITAT,
   family) %>% mutate(recordedBy = "Datapaper_epiphytes",
-                        identifiedBy = "Datapaper_epiphytes",
-                        scientificNameAuthorship = "no_info",
-                     county = FALSE)
+                     identifiedBy = "Datapaper_epiphytes",
+                     scientificNameAuthorship = "no_info")
 
 #Convert in DWC format
 occ.epi.dwc <- formatDwc(user_data = data.frame(epifor.sp))
@@ -297,6 +302,11 @@ occ <- subset(occ, !is.na(occ$decimalLatitude.new1) &
                 !is.na(occ$decimalLongitude.new1))
 
 #Get binomial name
+if(any(is.na(occ$scientificNameFull))){
+occ$scientificNameFull[which(is.na(occ$scientificNameFull))] <- occ$scientificName[which(is.na(occ$scientificNameFull))] }
+if(any(is.na(occ$scientificName.new1))){
+  occ$scientificName.new1[which(is.na(occ$scientificName.new1))] <- occ$scientificName[which(is.na(occ$scientificName.new1))] }
+
 occ$species <- if("scientificName.new1" %in% colnames(occ)) {
   occ$species <- get_binomial(species_names = occ$scientificName.new1)
 } else {
@@ -327,6 +337,13 @@ if("year.new" %in% colnames(occ) == FALSE) {
 
 #Select columns
 oc <- occ[, columns_occ]
+
+#Correct names, if necessary
+sp_bf <- bf %>% filter(species %in% sp | acceptedName %in% sp)
+all_names_sp <- na.omit(unique(c(sp_bf$species, sp_bf$acceptedName)))
+#Rename synonyms, if necessary
+oc$species[which(oc$species %in% all_names_sp)] <- sp
+
 #Select only correct species
 oc.sp <- subset(oc, oc$species == sp)
 
