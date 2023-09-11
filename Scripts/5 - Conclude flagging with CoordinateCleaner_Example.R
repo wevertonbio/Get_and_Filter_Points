@@ -11,12 +11,15 @@ library(tidyr)
 setwd("Examples/")
 
 #Import records
-pts <- fread("Check_Points/4-Flagged_Records.csv")
+pts <- read.csv("Check_Points/4-Flagged_Records.csv")
+pts$decimalLongitude.new1 <- as.numeric(pts$decimalLongitude.new1)
+pts$decimalLatitude.new1 <- as.numeric(pts$decimalLatitude.new1)
+pts2 <- pts %>% filter(!is.na(decimalLongitude.new1))
 
 #Starting flagging...
 
 #Radius around country capitals
-occ.cap <- cc_cap(pts, lon = "decimalLongitude.new1", lat = "decimalLatitude.new1",
+occ.cap <- cc_cap(pts2, lon = "decimalLongitude.new1", lat = "decimalLatitude.new1",
                   species = "species", buffer = 1000, #Buffer in meters
                   value = "flagged")
 occ.cap <- cbind(pts, "Country_Capital" = occ.cap)
