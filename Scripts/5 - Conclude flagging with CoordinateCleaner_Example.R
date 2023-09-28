@@ -11,7 +11,7 @@ library(tidyr)
 setwd("Examples/")
 
 #Import records
-pts <- fread("Check_Points/4-Flagged_Records.csv")
+pts <- read.csv("Check_Points/4-Flagged_Records.csv")
 
 #Starting flagging...
 
