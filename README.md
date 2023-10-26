@@ -1,8 +1,8 @@
 # Get and Filter Points
 
-This repository serves to store R scripts to download, process and filter occurrence records of species from 4 databases: [GBIF](https://www.gbif.org/), [SpeciesLink](https://specieslink.net/), [Jardim Bot‚nico do Rio de Janeiro (JABOT)](http://jabot.jbrj.gov.br/v3/consulta.php), [NeotropicTree](http://www.neotroptree.info/) and [Atlantic Epiphytes datapaper](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecy.2541).
+This repository serves to store R scripts to download, process and filter occurrence records of plant species from 5 databases: [GBIF](https://www.gbif.org/), [SpeciesLink](https://specieslink.net/), [Jardim Bot√¢nico do Rio de Janeiro (JABOT)](http://jabot.jbrj.gov.br/v3/consulta.php), [NeotropicTree](http://www.neotroptree.info/) and [Atlantic Epiphytes datapaper](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecy.2541).
 
-Authors: Weverton Carlos Ferreira Trindade\*, M·rcia Marques
+Authors: Weverton Carlos Ferreira Trindade\*, M√°rcia Marques
 
 Contact: [wevertonf1993@gmail.com](wevertonf1993@gmail.com)
 
